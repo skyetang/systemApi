@@ -1,15 +1,18 @@
 const express = require('express');
+const Router = express.Router();
 const passport = require('passport');
-const router = express.Router();
 
-router.get('/', passport.authenticate('local'), (req, res ,next) => {
-  console.log(req, res);
-})
-
-router.get('/test', (req, res) => {
+Router.get('/test', (req, res) => {
   res.send({
-    'loginTest': 'true'
+      message: 'success'
   })
 });
 
-module.exports = router;
+Router.post('/test', passport.authenticate('local'), (req, res) => {
+  res.send({
+      message: 'su'
+  })
+});
+
+
+module.exports = Router;

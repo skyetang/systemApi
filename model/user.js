@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const schema = mongoose.schema;
-const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
 
-const userSchema = new schema({
+const UserSchema = new Schema({
     name: {
         type: String,
         unique: true,
@@ -27,8 +26,4 @@ const userSchema = new schema({
     }
 });
 
-userSchema.pre('save', (next) => {
-    if (this.isNew) {
-
-    }
-});
+module.exports = mongoose.model('UserSchema', UserSchema);
