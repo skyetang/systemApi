@@ -4,13 +4,14 @@ const User = require('../model/user');
 const bcrypt = require('bcrypt');
 
 passport.serializeUser((user, done) => {
-  console.log('s', user);
-  done(null, user);
+  console.log(user);
+  done(null, user.message);
 });
 
-passport.deserializeUser((user, done) => {
-  console.log('d', user);
-  done(null, user);
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, usr) => {
+    done(err, usr);
+  });
 });
 
 module.exports = (passports) => {
@@ -20,13 +21,13 @@ module.exports = (passports) => {
         return done(err);
       }
       if (!user) {
-        return done(null, { success: false, message: '用户不存在' });
+        return done(null, { success: false, message: '用户不存在', user: user});
       }
-      bcrypt.compare(password, user.password, (error, res) => {
-        if (res) {
-          return done(null, { success: true, message: '登录成功' });
+      bcrypt.compare(password, user.password, (error, usr) => {
+        if (usr) {
+          return done(null, { success: true, message: '登录成功', user: user});
         }
-        return done(null, { success: false, message: '密码错误' });
+        return done(null, { success: false, message: '密码错误', user: user});
       });
     });
   }));

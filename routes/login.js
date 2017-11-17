@@ -6,6 +6,7 @@ const passport = require('passport');
 const User = require('../model/user');
 
 const isAuthenticate = (req, res, next) => {
+  console.log('session', req.session);
   if (req.isAuthenticated()) {
     return next();
   }
@@ -13,6 +14,7 @@ const isAuthenticate = (req, res, next) => {
 };
 
 Router.post('/singin', passport.authenticate('local'), (req, res) => {
+  console.log('call', req.user);
   res.send(req.user);
 });
 
