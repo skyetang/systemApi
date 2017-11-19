@@ -1,4 +1,5 @@
 const passport = require('passport');
+const jwt = require('jwt-simple');
 const { Strategy } = require('passport-local');
 const bcrypt = require('bcrypt');
 const User = require('../model/user');
@@ -21,10 +22,12 @@ module.exports = (passports) => {
         * 将第二个字段的json数据，返回应用验证的接口req参数的user属性中
         * 同时参数会传给passport.serializeUser中去
         */
-          return done(null, { success: true, message: '登录成功', user: { username: user.username, id:user._id }});
+          return done(null, { success: true, message: '登录成功', token: generateToken(user._id) });
         }
         return done(null, false, { success: false, message: '密码错误' });
       });
     });
   }));
 };
+
+const generateToken = id => jwt.encode({ uid: id }, 'skyeApiToken');

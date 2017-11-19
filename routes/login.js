@@ -3,6 +3,7 @@ const Router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../model/user');
+const isAuth = require('../config/auth');
 
 /*
 * 如果不需要passport自动通过session保存登录状态及设置cookie，则在验证时通过session:false
@@ -13,7 +14,7 @@ Router.post('/singin', passport.authenticate('local', { session: false }), (req,
   res.send(req.user);
 });
 
-Router.post('/check', (req, res) => {
+Router.post('/check', isAuth, (req, res) => {
   res.send({ success: true, message: '检测成功' });
 });
 
