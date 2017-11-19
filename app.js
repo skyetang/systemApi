@@ -3,7 +3,6 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const cookie = require('cookie-parser');
 const login = require('./routes/login');
 
 require('./config/passport')(passport);
@@ -19,7 +18,6 @@ app.use(session({
   resave: false,
   cookie: { maxAge: 180 * 60 * 1000 } // store保存时间
 }));
-app.use(cookie());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
