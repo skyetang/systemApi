@@ -1,7 +1,8 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
-const User = require('../model/user');
 const bcrypt = require('bcrypt');
+const User = require('../model/user');
+
 /*
  * 注册验证策略，以及验证的具体方法
  * */
@@ -27,21 +28,3 @@ module.exports = (passports) => {
     });
   }));
 };
-
-/*
- * 在strategy验证成功后，就会调用些方法创建session
- * 并接收传过来的参数，以id为值存在session当中
- * */
-passport.serializeUser((data, done) => {
-  done(null, data.user.id);
-});
-
-/*
- * 验证通过后的passport，在每次请求接口都会调用此方法
- * 并将查询到的用户信息，存放到回调访求req的user属性中
- * */
-passport.deserializeUser((id, done) => {
-  User.findById({ _id: id }, (err, usr) => {
-    done(err, usr);
-  });
-});
