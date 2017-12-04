@@ -1,24 +1,25 @@
-const express = require('express');
-const Router = express.Router();
+const Router = require('koa-router');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../model/user');
 const isAuth = require('../config/auth');
-
+const router = new Router();
 /*
 * 如果不需要passport自动通过session保存登录状态及设置cookie，则在验证时通过session:false
 * 如果需要用到，则需要引入cook-parser,express-session, 并且user passport.session
 * 设置serializeUser,deserializeUser方法等
 * */
-Router.post('/singin', passport.authenticate('local', { session: false }), (req, res) => {
-  res.send(req.user);
+router.post('/singin', (ctx) => {
+  return passport.authenticate('local', { session: false }, (req, res) => {
+    console.log(req, res);
+  })(ctx);
 });
 
-Router.post('/check', isAuth, (req, res) => {
+router.post('/check', isAuth, (req, res) => {
   res.send({ success: true, message: '检测成功' });
 });
 
-Router.post('/register', (req, res) => {
+router.post('/register', (req, res) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) return err;
     const user = new User({
@@ -35,7 +36,7 @@ Router.post('/register', (req, res) => {
   });
 });
 
-Router.post('/test2', (req, res) => {
+router.post('/test2', (req, res) => {
   passport.authenticate('local', {
     session: false,
     successRedirect: '/',
@@ -43,4 +44,4 @@ Router.post('/test2', (req, res) => {
   })(req, res);
 });
 
-module.exports = Router;
+module.exports = router;
