@@ -1,4 +1,4 @@
-const passport = require('passport');
+const passport = require('koa-passport');
 const jwt = require('jwt-simple');
 const { Strategy } = require('passport-local');
 const bcrypt = require('bcrypt');
@@ -14,7 +14,7 @@ module.exports = (passports) => {
         return done(err);
       }
       if (!user) {
-        return done(null, false, { success: false, message: '用户不存在' });
+        return done(null, { success: false, message: '用户不存在' });
       }
       bcrypt.compare(password, user.password, (error, validate) => {
         if (validate) {
@@ -24,7 +24,7 @@ module.exports = (passports) => {
         */
           return done(null, { success: true, message: '登录成功', token: generateToken(user._id) });
         }
-        return done(null, false, { success: false, message: '密码错误' });
+        return done(null, { success: false, message: '密码错误' });
       });
     });
   }));

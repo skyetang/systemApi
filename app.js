@@ -1,6 +1,6 @@
 const koa = require('koa');
 const Router = require('koa-router');
-const passport = require('passport');
+const passport = require('koa-passport');
 const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
 const login = require('./routes/login');
@@ -8,16 +8,14 @@ const login = require('./routes/login');
 require('./config/passport')(passport);
 
 const app = new koa();
-const router = new Router();
 
 const db = mongoose.connect('mongodb://localhost:27017/test', { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
-router.use('/login', login.routes());
 
 app.use(bodyParser());
 app.use(passport.initialize());
-app.use(router.routes());
+app.use(login.routes());
 
 const port = process.env.PORT || 8858;
 console.log(`> Starting dev server on port: ${port}`);

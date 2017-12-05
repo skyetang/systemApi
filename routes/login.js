@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const bcrypt = require('bcrypt');
-const passport = require('passport');
+const passport = require('koa-passport');
 const User = require('../model/user');
 const isAuth = require('../config/auth');
 const router = new Router();
@@ -10,8 +10,12 @@ const router = new Router();
 * 设置serializeUser,deserializeUser方法等
 * */
 router.post('/singin', (ctx) => {
-  return passport.authenticate('local', { session: false }, (req, res) => {
-    console.log(req, res);
+  return passport.authenticate('local', { session: false }, (err, info) => {
+    if (err) {
+      ctx.body = err;
+    } else {
+      ctx.body = info;
+    }
   })(ctx);
 });
 
