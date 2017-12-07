@@ -13,8 +13,8 @@ const isAuth = (ctx, next) => {
           ctx.body = { success: false, message: '无权限' };
         }
         ctx.body = { success: true, user: usr };
+        return next();
       });
-      return next();
     } catch (err) {
       ctx.body = { success: false, message: '获取token出错，请重试' };
     }
