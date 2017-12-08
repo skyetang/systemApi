@@ -19,8 +19,8 @@ router.post('/singin', (ctx) => {
   })(ctx);
 });
 
-router.post('/check', isAuth, (ctx) => {
-  ctx.body = { success: '123' };
+router.post('/check', isAuth, async (ctx) => {
+  ctx.body = { success: '验证成功' };
 });
 
 router.post('/register', (req, res) => {
