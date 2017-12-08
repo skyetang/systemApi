@@ -20,32 +20,30 @@ router.post('/singin', (ctx) => {
 });
 
 router.post('/check', isAuth, async (ctx) => {
-  ctx.body = { success: '验证成功' };
+  ctx.body = { success: true };
 });
 
-router.post('/register', (req, res) => {
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) return err;
-    const user = new User({
-      username: req.body.username,
-      password: hash
-    });
-    user.save((error, usr) => {
+router.post('/register', async (ctx) => {
+  const req = ctx.request.body;
+  const res = bcrypt.hashSync(req.password, 10);
+  const user = new User({
+    username: req.username,
+    password: res
+  });
+  try {
+    let result;
+    await user.save((error, usr) => {
       if (error) {
-        res.send({ error, success: false });
+        result = { success: false };
       } else {
-        res.send({ error, success: true, data: usr.username });
+        result = { success: true, data: usr.username };
       }
     });
-  });
+    ctx.body = { success: true };
+  } catch (err) {
+    ctx.body = { success: false, err };
+  }
 });
 
-router.post('/test2', (req, res) => {
-  passport.authenticate('local', {
-    session: false,
-    successRedirect: '/',
-    failureRedirect: '/login'
-  })(req, res);
-});
 
 module.exports = router;
