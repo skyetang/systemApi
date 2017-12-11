@@ -1,7 +1,7 @@
 const passport = require('koa-passport');
 const jwt = require('jwt-simple');
-const { Strategy } = require('passport-local');
 const bcrypt = require('bcrypt');
+const { Strategy } = require('passport-local');
 const User = require('../model/user');
 
 /*

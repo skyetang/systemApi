@@ -1,11 +1,10 @@
 const koa = require('koa');
-const Router = require('koa-router');
 const passport = require('koa-passport');
 const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
 const login = require('./routes/login');
 
-require('./config/passport')(passport);
+require('./controller/passport')(passport);
 
 const app = new koa();
 
