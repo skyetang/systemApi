@@ -7,6 +7,7 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "jwt-simple": "^0.5.1",
@@ -16,7 +17,11 @@
     "koa-router": "^7.3.0",
     "mongoose": "^4.13.2",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "qs": "^6.5.1",
+    "querystring": "^0.2.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "eslint": "^4.11.0",

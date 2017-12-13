@@ -14,9 +14,13 @@ mongoose.Promise = global.Promise;
 
 app.use(bodyParser());
 app.use(passport.initialize());
+app.use(async (ctx, next) => {
+  console.log(`请求了地址：=> ${ctx.request.origin}${ctx.request.url}`);
+  await next();
+});
 app.use(login.routes());
 
-const port = process.env.PORT || 8858;
+const port = process.env.PORT || 8387;
 console.log(`> Starting dev server on port: ${port}`);
 
 app.listen(port, () => {
